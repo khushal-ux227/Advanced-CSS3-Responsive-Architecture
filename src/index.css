@@ -1,0 +1,281 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   ADVANCED CSS3 ARCHITECTURE & DYNAMIC CSS VARIABLES SYSTEM
+   Light and Dark mode tokens with mobile-first responsive layout contracts
+   ========================================================================== */
+
+:root {
+  /* Light Mode Palette */
+  --canvas-bg: #f8fafc;
+  --surface-bg: #ffffff;
+  --surface-elevated: #ffffff;
+  --surface-subtle: #f1f5f9;
+  --surface-hover: #e2e8f0;
+  --border-subtle: rgba(15, 23, 42, 0.08);
+  --border-contrast: rgba(15, 23, 42, 0.16);
+  --border-focus: #0f172a;
+  
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-subtle: #94a3b8;
+  
+  --accent-primary: #c2410c;      /* Architectural Burnt Terracotta */
+  --accent-hover: #9a3412;
+  --accent-subtle: #ffedd5;
+  --accent-contrast: #ffffff;
+
+  --grid-line: rgba(15, 23, 42, 0.06);
+  --grid-debug-line: rgba(194, 65, 12, 0.35);
+  --grid-debug-bg: rgba(194, 65, 12, 0.04);
+  
+  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  
+  --shadow-subtle: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+  --shadow-elevated: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  --transition-standard: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="dark"] {
+  /* Dark Mode Palette */
+  --canvas-bg: #090a0f;
+  --surface-bg: #12141c;
+  --surface-elevated: #181b26;
+  --surface-subtle: #1c202e;
+  --surface-hover: #262b3d;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-contrast: rgba(255, 255, 255, 0.16);
+  --border-focus: #f8fafc;
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-subtle: #64748b;
+  
+  --accent-primary: #ea580c;      /* Luminous Terracotta */
+  --accent-hover: #f97316;
+  --accent-subtle: rgba(234, 88, 12, 0.15);
+  --accent-contrast: #ffffff;
+
+  --grid-line: rgba(255, 255, 255, 0.05);
+  --grid-debug-line: rgba(234, 88, 12, 0.45);
+  --grid-debug-bg: rgba(234, 88, 12, 0.06);
+
+  --shadow-subtle: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+  --shadow-elevated: 0 12px 30px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+}
+
+/* Base Document Styles */
+body {
+  background-color: var(--canvas-bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  transition: background-color 200ms ease, color 200ms ease;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.025em;
+}
+
+/* ==========================================================================
+   CSS GRID ARCHITECTURE: TWO-DIMENSIONAL LAYOUTS
+   ========================================================================== */
+
+/* 1. Hero 2D Grid: Split viewport with responsive column fraction tracks */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+@media (min-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 3.5rem;
+  }
+}
+
+/* 2. Key Metrics 4-Column Responsive Grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background-color: var(--border-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .metrics-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 3. Dynamic Bento Portfolio 2D Grid */
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: minmax(320px, auto);
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .bento-grid {
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: 240px;
+    gap: 1.75rem;
+  }
+
+  /* Bento specific spans */
+  .bento-span-featured {
+    grid-column: span 7;
+    grid-row: span 2;
+  }
+
+  .bento-span-tall {
+    grid-column: span 5;
+    grid-row: span 2;
+  }
+
+  .bento-span-medium {
+    grid-column: span 4;
+    grid-row: span 2;
+  }
+
+  .bento-span-wide {
+    grid-column: span 8;
+    grid-row: span 2;
+  }
+
+  .bento-span-compact {
+    grid-column: span 6;
+    grid-row: span 1;
+  }
+}
+
+/* 4. Architectural Principles 3-Column Grid */
+.principles-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .principles-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* 5. Team & Achievements 3-Column Grid */
+.team-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .team-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 6. Form & Contact 2D Grid */
+.inquiry-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .inquiry-grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 3.5rem;
+  }
+}
+
+/* ==========================================================================
+   FLEXBOX ARCHITECTURE: LOCALIZED COMPONENT ALIGNMENT
+   ========================================================================== */
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ==========================================================================
+   CSS GRID INSPECTOR / DEBUG HUD STYLES
+   Visualizes 2D tracks and gap spacing when debug mode is enabled
+   ========================================================================== */
+
+.css-grid-debug .grid,
+.css-grid-debug .bento-grid,
+.css-grid-debug .hero-grid,
+.css-grid-debug .metrics-grid,
+.css-grid-debug .principles-grid,
+.css-grid-debug .team-grid {
+  outline: 1.5px dashed var(--grid-debug-line) !important;
+  background-image: 
+    linear-gradient(to right, var(--grid-debug-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-debug-line) 1px, transparent 1px);
+  background-size: 32px 32px;
+  position: relative;
+}
+
+.css-grid-debug .bento-grid > *,
+.css-grid-debug .hero-grid > *,
+.css-grid-debug .principles-grid > *,
+.css-grid-debug .team-grid > * {
+  box-shadow: 0 0 0 1px var(--grid-debug-line) !important;
+  background-color: var(--grid-debug-bg) !important;
+}
+
+/* Smooth custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--canvas-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-contrast);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
+}
